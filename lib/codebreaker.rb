@@ -1,6 +1,6 @@
-require "codebreaker/version"
+require 'codebreaker/version'
+require 'codebreaker/rules'
+require_relative 'codebreaker/game'
 
 module Codebreaker
-  class Error < StandardError; end
-  # Your code goes here...
 end

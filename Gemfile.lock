@@ -62,7 +62,7 @@ DEPENDENCIES
   fasterer
   pry (~> 0.12.2)
   rake (~> 12.0)
-  rspec
+  rspec (~> 3.9)
   rubocop
 
 BUNDLED WITH

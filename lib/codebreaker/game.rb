@@ -1,21 +1,49 @@
+require 'pry'
 module Codebreaker
   class Game
     include Validator
-    attr_accessor :secret, :hints, :answer, :attempts, :status, :player
+    attr_accessor :secret, :hints, :attempts, :status, :player, :result
 
-    def initialize(_player, difficulty)
+    def initialize(player, difficulty)
       @secret = create_secret
       difficulty_changer(difficulty)
       @status = :game
+      @player = player
     end
 
     def guess(answer)
       check_status
       validate_guess(answer)
+      @result = ''
+      answer = break_number(answer)
       @attempts -= 1
+      check_guess(answer)
     end
 
     private
+
+    def check_guess(answer)
+      positive_answer = answer_positive(answer)
+      answer_negative(positive_answer)
+    end
+
+    def answer_positive(answer)
+      @result = ''
+      positive = 0
+      answer.each_with_index do |number, index|
+        if answer[index] == @secret[index]
+          positive += 1
+          answer[index] = '+'
+        end
+      end
+      @result = '+' * positive
+      answer
+    end
+
+    def answer_negative(answer)
+      negative = answer & @secret
+      @result << '-' * negative.size
+    end
 
     def difficulty_changer(difficulty_name)
       validate_difficulty(difficulty_name)
@@ -46,6 +74,8 @@ module Codebreaker
         @status = :lose
       elsif @result == '++++'
         @status = :win
+      else
+        @status = :game
       end
     end
 

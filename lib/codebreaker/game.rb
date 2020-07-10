@@ -20,6 +20,11 @@ module Codebreaker
       check_guess(answer)
     end
 
+    def hint
+      @hints -= 1
+      @secret.sample
+    end
+
     private
 
     def check_guess(answer)
@@ -30,7 +35,7 @@ module Codebreaker
     def answer_positive(answer)
       @result = ''
       positive = 0
-      answer.each_with_index do |number, index|
+      answer.each_with_index do |_number, index|
         if answer[index] == @secret[index]
           positive += 1
           answer[index] = '+'
@@ -56,6 +61,8 @@ module Codebreaker
 
     def validate_guess(answer)
       validate_argument_type(answer, Integer)
+      validate_length(answer, 4)
+      validate_range(answer, 1..6)
     end
 
     def create_secret
@@ -70,13 +77,13 @@ module Codebreaker
     end
 
     def check_status
-      if @attempts.zero?
-        @status = :lose
-      elsif @result == '++++'
-        @status = :win
-      else
-        @status = :game
-      end
+      @status = if @attempts.zero?
+                  :lose
+                elsif @result == '++++'
+                  :win
+                else
+                  :game
+                end
     end
 
     def break_number(number)

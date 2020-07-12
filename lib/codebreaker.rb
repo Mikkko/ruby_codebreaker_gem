@@ -1,5 +1,4 @@
 require 'codebreaker/version'
-require 'codebreaker/rules'
 require_relative 'codebreaker/errors/difficulty_error'
 require_relative 'codebreaker/errors/wrong_argument_error'
 require_relative 'codebreaker/errors/length_error'

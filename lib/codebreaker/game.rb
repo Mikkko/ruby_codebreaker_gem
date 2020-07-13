@@ -12,17 +12,21 @@ module Codebreaker
     end
 
     def guess(answer)
-      check_status
       validate_guess(answer)
       @result = ''
       answer = break_number(answer)
       @attempts -= 1
       check_guess(answer)
+      check_status
     end
 
     def hint
-      @hints -= 1
-      @secret.sample
+      if @hints.zero?
+        return
+      else
+        @hints -= 1
+        @secret.sample
+      end
     end
 
     private

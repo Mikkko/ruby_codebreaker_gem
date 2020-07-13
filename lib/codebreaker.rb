@@ -5,7 +5,7 @@ require_relative 'codebreaker/errors/length_error'
 require_relative 'codebreaker/errors/range_error'
 require_relative 'codebreaker/modules/validator'
 require_relative 'codebreaker/game'
-require_relative 'codebreaker/user'
+require_relative 'codebreaker/player'
 
 module Codebreaker
 end

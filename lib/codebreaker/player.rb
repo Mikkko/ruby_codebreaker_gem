@@ -1,5 +1,5 @@
 module Codebreaker
-  class User
+  class Player
     attr_accessor :name
 
     def initialize(name)

@@ -1,5 +1,7 @@
 require 'pry'
 module Codebreaker
+  SECRET_SIZE = 4
+
   class Game
     include Validator
     attr_accessor :secret, :hints, :attempts, :status, :player, :result
@@ -17,7 +19,7 @@ module Codebreaker
       answer = break_number(answer)
       @attempts -= 1
       check_guess(answer)
-      check_status
+      @status = check_status
     end
 
     def hint
@@ -65,13 +67,13 @@ module Codebreaker
 
     def validate_guess(answer)
       validate_argument_type(answer, Integer)
-      validate_length(answer, 4)
+      validate_length(answer, SECRET_LENGTH)
       validate_range(answer, 1..6)
     end
 
     def create_secret
       secret = []
-      4.times { secret << rand(1..6) }
+      SECRET_SIZE.times { secret << rand(1..6) }
       secret
     end
 
@@ -81,13 +83,10 @@ module Codebreaker
     end
 
     def check_status
-      @status = if @attempts.zero?
-                  :lose
-                elsif @result == '++++'
-                  :win
-                else
-                  :game
-                end
+      if @attempts.zero? then :lose
+      elsif @result == '++++' then :win
+      else :game
+      end
     end
 
     def break_number(number)

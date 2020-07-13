@@ -1,6 +1,7 @@
 require 'pry'
 module Codebreaker
   SECRET_SIZE = 4
+  SECRET_RANGE = (1..6).freeze
 
   class Game
     include Validator
@@ -24,7 +25,7 @@ module Codebreaker
 
     def hint
       if @hints.zero?
-        return
+        nil
       else
         @hints -= 1
         @secret.sample
@@ -68,12 +69,12 @@ module Codebreaker
     def validate_guess(answer)
       validate_argument_type(answer, Integer)
       validate_length(answer, SECRET_LENGTH)
-      validate_range(answer, 1..6)
+      validate_range(answer, SECRET_RANGE)
     end
 
     def create_secret
       secret = []
-      SECRET_SIZE.times { secret << rand(1..6) }
+      SECRET_SIZE.times { secret << rand(SECRET_RANGE) }
       secret
     end
 

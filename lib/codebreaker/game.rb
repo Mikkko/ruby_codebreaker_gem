@@ -21,6 +21,7 @@ module Codebreaker
       @attempts -= 1
       check_guess(answer)
       @status = check_status
+      @result
     end
 
     def hint
@@ -35,26 +36,8 @@ module Codebreaker
     private
 
     def check_guess(answer)
-      positive_answer = answer_positive(answer)
-      answer_negative(positive_answer)
-    end
-
-    def answer_positive(answer)
-      @result = ''
-      positive = 0
-      answer.each_with_index do |_number, index|
-        if answer[index] == @secret[index]
-          positive += 1
-          answer[index] = '+'
-        end
-      end
-      @result = '+' * positive
-      answer
-    end
-
-    def answer_negative(answer)
-      negative = answer & @secret
-      @result << '-' * negative.size
+      @result = '-' * (secret & answer).map { |element| [secret.count(element), answer.count(element)].min }.sum
+      answer.each_with_index { |element, index| result.sub!('-', '+') if element == secret[index] }
     end
 
     def difficulty_changer(difficulty_name)
@@ -68,7 +51,7 @@ module Codebreaker
 
     def validate_guess(answer)
       validate_argument_type(answer, Integer)
-      validate_length(answer, SECRET_LENGTH)
+      validate_length(answer, SECRET_SIZE)
       validate_range(answer, SECRET_RANGE)
     end
 

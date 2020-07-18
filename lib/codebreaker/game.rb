@@ -4,12 +4,13 @@ module Codebreaker
   SECRET_RANGE = (1..6).freeze
 
   class Game
+    include Store
     include Validator
-    attr_accessor :secret, :hints, :attempts, :status, :player, :result
+    attr_accessor :secret, :hints, :attempts, :max_attempts, :status, :player, :result
 
     def initialize(player, difficulty)
-      @secret = create_secret
       difficulty_changer(difficulty)
+      @secret = create_secret
       @status = :game
       @player = player
     end
@@ -33,19 +34,28 @@ module Codebreaker
       end
     end
 
+    def show_results(file)
+      load_data(file)
+    end
+
+    def save_result(file)
+      hash = to_hash
+      store_data(hash, file)
+    end
+
     private
 
     def check_guess(answer)
-      @result = '-' * (secret & answer).map { |element| [secret.count(element), answer.count(element)].min }.sum
-      answer.each_with_index { |element, index| result.sub!('-', '+') if element == secret[index] }
+      @result = '-' * (@secret & answer).map { |element| [@secret.count(element), answer.count(element)].min }.sum
+      answer.each_with_index { |element, index| @result.sub!('-', '+') if element == @secret[index] }
     end
 
     def difficulty_changer(difficulty_name)
       validate_difficulty(difficulty_name)
       case difficulty_name.to_s.capitalize
-      when 'Easy' then change_difficulty(2, 15)
-      when 'Medium' then change_difficulty(1, 10)
-      when 'Hell' then change_difficulty(1, 5)
+      when 'Easy' then change_difficulty(:easy, 2, 15)
+      when 'Medium' then change_difficulty(:medium, 1, 10)
+      when 'Hell' then change_difficulty(:hell, 1, 5)
       end
     end
 
@@ -61,9 +71,12 @@ module Codebreaker
       secret
     end
 
-    def change_difficulty(hints, attempts)
+    def change_difficulty(difficulty, hints, attempts)
+      @difficulty = difficulty
       @hints = hints
       @attempts = attempts
+      @max_attempts = attempts
+      @max_hints = hints
     end
 
     def check_status
@@ -75,6 +88,19 @@ module Codebreaker
 
     def break_number(number)
       number.to_s.scan(/./).map(&:to_i)
+    end
+
+    def to_hash
+      attempts_used = @max_attempts - @attempts
+      hints_used = @max_hints - @hints
+      {
+        player: @player,
+        difficulty: @difficulty,
+        attempts: @max_attempts,
+        attempts_used: attempts_used,
+        hints: @max_hints,
+        hints_used: hints_used
+      }
     end
   end
 end

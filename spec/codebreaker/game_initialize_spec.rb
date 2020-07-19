@@ -18,5 +18,9 @@ RSpec.describe Codebreaker::Game do
     it 'player is instance of Player class' do
       expect(game.player.class).to eq Codebreaker::Player
     end
+
+    it 'game status is :game' do
+      expect(game.status).to eq :game
+    end
   end
 end

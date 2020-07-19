@@ -1,11 +1,9 @@
-require 'pry'
 module Codebreaker
-  SECRET_SIZE = 4
-  SECRET_RANGE = (1..6).freeze
-
   class Game
     include Store
     include Validator
+    SECRET_SIZE = 4
+    SECRET_RANGE = (1..6).freeze
     attr_accessor :secret, :hints, :attempts, :max_attempts, :status, :player, :result
 
     def initialize(player, difficulty)
@@ -52,10 +50,10 @@ module Codebreaker
 
     def difficulty_changer(difficulty_name)
       validate_difficulty(difficulty_name)
-      case difficulty_name.to_s.capitalize
-      when 'Easy' then change_difficulty(:easy, 2, 15)
-      when 'Medium' then change_difficulty(:medium, 1, 10)
-      when 'Hell' then change_difficulty(:hell, 1, 5)
+      case difficulty_name
+      when 'easy' then change_difficulty(:easy, 2, 15)
+      when 'medium' then change_difficulty(:medium, 1, 10)
+      when 'hell' then change_difficulty(:hell, 1, 5)
       end
     end
 

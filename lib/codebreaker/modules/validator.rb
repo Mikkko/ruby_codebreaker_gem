@@ -6,7 +6,7 @@ module Codebreaker
     end
 
     def validate_difficulty(difficulty_given)
-      difficulty = %w[Easy Medium Hell]
+      difficulty = %w[easy medium hell]
       raise DifficultyError until difficulty.include?(difficulty_given)
     end
 

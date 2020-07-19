@@ -9,12 +9,11 @@ RSpec.describe Codebreaker::Game do
       expect(game.secret.size).to eq described_class::SECRET_SIZE
     end
 
-    # it 'each element of secret is in SECRET_RANGE contstant' do
-    #   game.secret.each do |digit|
-    #     #expect(described_class::SECRET_RANGE).to be_included(digit)
-    #     expect(digit).to be_included(described_class::SECRET_RANGE)
-    #   end
-    # end
+    it 'each element of secret is in SECRET_RANGE contstant' do
+      game.secret.each do |digit|
+        expect(described_class::SECRET_RANGE).to include(digit)
+      end
+    end
 
     it 'player is instance of Player class' do
       expect(game.player.class).to eq Codebreaker::Player

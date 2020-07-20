@@ -1,6 +1,6 @@
 require 'codebreaker/version'
 require 'yaml/store'
-require_relative 'codebreaker/modules/store'
+require_relative 'codebreaker/classes/statistic'
 require_relative 'codebreaker/errors/difficulty_error'
 require_relative 'codebreaker/errors/wrong_argument_error'
 require_relative 'codebreaker/errors/length_error'

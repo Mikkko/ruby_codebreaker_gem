@@ -1,6 +1,5 @@
 module Codebreaker
   class Game
-    include Store
     include Validator
     SECRET_SIZE = 4
     SECRET_RANGE = (1..6).freeze
@@ -33,12 +32,14 @@ module Codebreaker
     end
 
     def show_results(file)
-      load_data(file)
+      statistic = Statistic.new(file)
+      statistic.load_statistic
     end
 
     def save_result(file)
-      hash = to_hash
-      store_data(hash, file)
+      statistic = Statistic.new(file)
+      hash = create_statistic
+      statistic.store_statistic(hash)
     end
 
     private
@@ -88,7 +89,7 @@ module Codebreaker
       number.to_s.scan(/./).map(&:to_i)
     end
 
-    def to_hash
+    def create_statistic
       attempts_used = @max_attempts - @attempts
       hints_used = @max_hints - @hints
       {

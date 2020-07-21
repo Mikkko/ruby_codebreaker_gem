@@ -1,15 +1,17 @@
 module Codebreaker
   class Game
     include Validator
+    include Errors
     SECRET_SIZE = 4
     SECRET_RANGE = (1..6).freeze
-    attr_accessor :secret, :hints, :attempts, :max_attempts, :status, :player, :result
+    attr_accessor :secret, :hints, :hint_number, :attempts, :max_attempts, :status, :player, :result
 
     def initialize(player, difficulty)
       difficulty_changer(difficulty)
       @secret = create_secret
       @status = :game
       @player = player
+      @hint_number = @secret.clone
     end
 
     def guess(answer)
@@ -23,17 +25,18 @@ module Codebreaker
     end
 
     def hint
-      if @hints.zero?
-        nil
-      else
-        @hints -= 1
-        @secret.sample
-      end
+      raise HintError if @hints.zero?
+
+      @hints -= 1
+      random_index = rand(@hint_number.size)
+      number = @hint_number[random_index]
+      @hint_number.delete_at(random_index)
+      number
     end
 
-    def show_results(file)
-      statistic = Statistic.new(file)
-      statistic.load_statistic
+    def self.show_results(file)
+      statistic = Statistic.new(file).load_statistic
+      StatisticSorter.new(statistic).create_table
     end
 
     def save_result(file)

@@ -36,7 +36,7 @@ module Codebreaker
 
     def self.show_results(file)
       statistic = Statistic.new(file).load_statistic
-      StatisticSorter.new(statistic).create_table
+      StatisticSorter.new(statistic).stats
     end
 
     def save_result(file)

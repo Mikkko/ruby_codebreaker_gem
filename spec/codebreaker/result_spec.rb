@@ -3,7 +3,7 @@ RSpec.describe Codebreaker::Game do
 
   describe '#show_results' do
     it 'returns array if file exists' do
-      expect(game.show_results('results.yml').class).to eq(Array)
+      expect(described_class.show_results('results.yml').class).to eq(Array)
     end
   end
 

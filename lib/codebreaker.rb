@@ -9,6 +9,7 @@ require_relative 'codebreaker/errors/hint_error'
 require_relative 'codebreaker/modules/validator'
 require_relative 'codebreaker/classes/difficulty'
 require_relative 'codebreaker/classes/player'
+require_relative 'codebreaker/classes/guess'
 require_relative 'codebreaker/classes/game'
 
 module Codebreaker

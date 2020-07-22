@@ -15,5 +15,9 @@ module Codebreaker
     def load_statistic
       File.file?(@file_path) && !File.zero?(@file_path) ? YAML.load_file(@file_path) : []
     end
+
+    def sort_stats
+      load_statistic.sort_by { |data| [data[:attempts], data[:attempts_used], data[:hints_used]] }
+    end
   end
 end

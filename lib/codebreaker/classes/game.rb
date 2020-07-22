@@ -4,19 +4,26 @@ module Codebreaker
     include Errors
     SECRET_SIZE = 4
     SECRET_RANGE = (1..6).freeze
+    RIGHT_ANSWER_SYMBOL = '+'.freeze
+    WRONG_ANSWER_SYMBOL = '-'.freeze
+    WIN_COMBINATION = '++++'.freeze
+    WIN_GAME_STATUS = :win
+    LOSE_GAME_STATUS = :lose
+    IN_GAME_STATUS = :game
     attr_accessor :secret, :hints, :hint_number, :attempts, :max_attempts, :status, :player, :result
 
     def initialize(player, difficulty)
-      difficulty_changer(difficulty)
-      @secret = create_secret
-      @status = :game
+      @difficulty = Difficulty.new(difficulty)
+      @attempts = @difficulty.attempts
+      @hints = @difficulty.hints
+      @secret_code = generate_secret_code
+      @status = IN_GAME_STATUS
       @player = player
-      @hint_number = @secret.clone
+      @hint_number = @secret_code.clone
     end
 
     def guess(answer)
       validate_guess(answer)
-      @result = ''
       answer = break_number(answer)
       @attempts -= 1
       check_guess(answer)
@@ -34,9 +41,8 @@ module Codebreaker
       number
     end
 
-    def self.show_results(file)
-      statistic = Statistic.new(file).load_statistic
-      StatisticSorter.new(statistic).stats
+    def self.show_statistic(file)
+      Statistic.new(file).sort_stats
     end
 
     def save_result(file)
@@ -48,17 +54,8 @@ module Codebreaker
     private
 
     def check_guess(answer)
-      @result = '-' * (@secret & answer).map { |element| [@secret.count(element), answer.count(element)].min }.sum
-      answer.each_with_index { |element, index| @result.sub!('-', '+') if element == @secret[index] }
-    end
-
-    def difficulty_changer(difficulty_name)
-      validate_difficulty(difficulty_name)
-      case difficulty_name
-      when 'easy' then change_difficulty(:easy, 2, 15)
-      when 'medium' then change_difficulty(:medium, 1, 10)
-      when 'hell' then change_difficulty(:hell, 1, 5)
-      end
+      @result = WRONG_ANSWER_SYMBOL * (@secret_code & answer).map { |element| [@secret_code.count(element), answer.count(element)].min }.sum
+      answer.each_with_index { |element, index| @result.sub!(WRONG_ANSWER_SYMBOL, RIGHT_ANSWER_SYMBOL) if element == @secret_code[index] }
     end
 
     def validate_guess(answer)
@@ -67,24 +64,14 @@ module Codebreaker
       validate_range(answer, SECRET_RANGE)
     end
 
-    def create_secret
-      secret = []
-      SECRET_SIZE.times { secret << rand(SECRET_RANGE) }
-      secret
-    end
-
-    def change_difficulty(difficulty, hints, attempts)
-      @difficulty = difficulty
-      @hints = hints
-      @attempts = attempts
-      @max_attempts = attempts
-      @max_hints = hints
+    def generate_secret_code
+      Array.new(SECRET_SIZE) { rand(SECRET_RANGE) }
     end
 
     def check_status
-      if @attempts.zero? then :lose
-      elsif @result == '++++' then :win
-      else :game
+      if @attempts.zero? then LOSE_GAME_STATUS
+      elsif @result == WIN_COMBINATION then WIN_GAME_STATUS
+      else IN_GAME_STATUS
       end
     end
 

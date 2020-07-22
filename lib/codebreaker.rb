@@ -8,7 +8,6 @@ require_relative 'codebreaker/errors/range_error'
 require_relative 'codebreaker/errors/hint_error'
 require_relative 'codebreaker/modules/validator'
 require_relative 'codebreaker/classes/game'
-require_relative 'codebreaker/classes/statistic_sorter'
 require_relative 'codebreaker/classes/player'
 
 module Codebreaker

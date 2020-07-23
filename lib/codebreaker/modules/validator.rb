@@ -1,13 +1,13 @@
 module Codebreaker
   module Validator
     include Errors
+
     def validate_argument_type(argument, class_name)
       raise WrongArgumentError until argument.is_a?(class_name)
     end
 
-    def validate_difficulty(difficulty_given)
-      difficulty = %w[easy medium hell]
-      raise DifficultyError until difficulty.include?(difficulty_given)
+    def validate_difficulty_name(difficulty_given, difficulties)
+      raise DifficultyError until difficulties.key?(difficulty_given.to_sym)
     end
 
     def validate_length(argument, length_argument)

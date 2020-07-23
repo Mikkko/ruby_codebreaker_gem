@@ -13,6 +13,5 @@ require_relative 'codebreaker/classes/guess'
 require_relative 'codebreaker/classes/statistic'
 require_relative 'codebreaker/classes/game'
 
-
 module Codebreaker
 end

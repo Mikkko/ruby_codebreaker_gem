@@ -14,7 +14,7 @@ module Codebreaker
     end
 
     def check_guess
-      @result = WRONG_ANSWER_SYMBOL * (@secret_code & @guess).map { |element| [@secret_code.count(element), @guess.count(element)].min }.sum
+      @result = WRONG_ANSWER_SYMBOL * count_matched_numbers
       @guess.each_with_index do |element, index|
         @result.sub!(WRONG_ANSWER_SYMBOL, RIGHT_ANSWER_SYMBOL) if element == @secret_code[index]
       end
@@ -22,6 +22,10 @@ module Codebreaker
     end
 
     private
+
+    def count_matched_numbers
+      (@secret_code & @guess).map { |element| [@secret_code.count(element), @guess.count(element)].min }.sum
+    end
 
     def validate_guess(guess)
       validate_argument_type(guess, Integer)

@@ -1,29 +1,31 @@
 RSpec.describe Codebreaker::Statistic do
-  let(:player) { Codebreaker::Player.new('Mikkko') }
-  let(:game) { Codebreaker::Game.new(player, 'easy') }
-
-  hash = {
-    player: 'Mikkko',
-    difficulty: :easy,
-    attempts: 15,
-    attempts_used: 5,
-    hints: 2,
-    hints_used: 2
-  }
-
   describe '#store_statistic' do
     let(:statistic) { described_class.new('results.yml') }
+    let(:difficulty) { game.instance_variable_get(:@difficulty) }
+    let(:player) { Codebreaker::Player.new('Mikkko') }
+    let(:game) { Codebreaker::Game.new(player, 'easy') }
+
     it 'creates file if it does not exist' do
-      statistic.store_statistic(hash)
+      statistic.store_statistic(player, difficulty, 2, 2)
       expect(File.file?('results.yml')).to be(true)
     end
   end
 
-  describe '#load_statistic' do
+  describe '#sort_stats' do
+    let(:statistic) { described_class.new('results.yml') }
+
     after { File.delete('results.yml') }
+
     it 'returns array if file exists' do
-      statistic = described_class.new('results.yml')
-      expect(statistic.load_statistic.class).to eq(Array)
+      expect(statistic.sort_stats.class).to eq(Array)
+    end
+  end
+
+  describe '.load_statistic' do
+    let(:fake_statistic) { described_class.new('fake.txt') }
+
+    it 'raises StatisticFileError if file is not exist ' do
+      expect { fake_statistic.send(:load_statistic) }.to raise_error(Codebreaker::Errors::StatisticFileError)
     end
   end
 end

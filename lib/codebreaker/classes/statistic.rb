@@ -8,8 +8,7 @@ module Codebreaker
     end
 
     def store_statistic(player, difficulty, attempts, hints)
-      @player = player, @difficulty = difficulty, @attempts = attempts, @hints = hints
-      hash = create_statistic
+      hash = create_statistic(player, difficulty, attempts, hints)
       stats = File.file?(@file_path) && !File.zero?(@file_path) ? load_statistic : []
       stats << hash
       file = File.open(@file_path, 'w')
@@ -27,15 +26,15 @@ module Codebreaker
       File.file?(@file_path) ? YAML.load_file(@file_path) : raise(StatisticFileError)
     end
 
-    def create_statistic
-      attempts_used = @difficulty.attempts - @attempts
-      hints_used = @difficulty.hints - @hints
+    def create_statistic(player, difficulty, attempts, hints)
+      attempts_used = difficulty.attempts - attempts
+      hints_used = difficulty.hints - hints
       {
-        player: @player,
-        difficulty: @difficulty,
-        attempts: @difficulty.attempts,
+        player: player,
+        difficulty: difficulty,
+        attempts: difficulty.attempts,
         attempts_used: attempts_used,
-        hints: @difficulty.hints,
+        hints: difficulty.hints,
         hints_used: hints_used
       }
     end

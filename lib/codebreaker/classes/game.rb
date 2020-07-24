@@ -2,13 +2,13 @@ module Codebreaker
   class Game
     include Validator
     include Errors
-    SECRET_SIZE = 4
-    SECRET_RANGE = (1..6).freeze
+    SECRET_CODE_SIZE = 4
+    SECRET_CODE_RANGE = (1..6).freeze
     WIN_COMBINATION = '++++'.freeze
     WIN_GAME_STATUS = :win
     LOSE_GAME_STATUS = :lose
     IN_GAME_STATUS = :game
-    attr_reader :secret_code, :hints, :hint_number, :attempts, :max_attempts, :status, :player, :result
+    attr_reader :secret_code, :hints, :hint_number, :attempts, :max_attempts, :status, :player, :result, :difficulty
 
     def initialize(player, difficulty)
       @difficulty = Difficulty.new(difficulty)
@@ -48,7 +48,7 @@ module Codebreaker
     private
 
     def generate_secret_code
-      Array.new(SECRET_SIZE) { rand(SECRET_RANGE) }
+      Array.new(SECRET_CODE_SIZE) { rand(SECRET_CODE_RANGE) }
     end
 
     def check_game_status

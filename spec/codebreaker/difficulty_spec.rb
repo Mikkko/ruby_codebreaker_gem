@@ -1,19 +1,17 @@
 RSpec.describe Codebreaker::Difficulty do
   let(:difficulty) { described_class.new('easy') }
 
-  describe '.initialize' do
-    it 'has difficulty instance variable' do
-      expect(difficulty.instance_variables).to include(:@difficulty)
-    end
-  end
-
   describe '.validate' do
-    it 'raise DifficultyError if given unknown difficulty' do
-      expect { described_class.validate('hardveryhard') }.to raise_error(Codebreaker::Errors::DifficultyError)
+    context 'when given unknown difficulty' do
+      it 'raise DifficultyError' do
+        expect { described_class.validate('hardveryhard') }.to raise_error(Codebreaker::Errors::DifficultyError)
+      end
     end
 
-    it 'raise WrongArgumentError if not string' do
-      expect { described_class.validate(123) }.to raise_error(Codebreaker::Errors::WrongArgumentError)
+    context 'when given not string' do
+      it 'raise WrongArgumentError' do
+        expect { described_class.validate(123) }.to raise_error(Codebreaker::Errors::WrongArgumentError)
+      end
     end
   end
 

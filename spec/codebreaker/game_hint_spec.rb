@@ -2,9 +2,11 @@ RSpec.describe Codebreaker::Game do
   let(:game) { described_class.new(Codebreaker::Player.new('Mikkko'), 'easy') }
 
   describe '#hint' do
-    it 'raise HintError if hints are absent' do
-      game.instance_variable_set(:@hints, 0)
-      expect { game.hint }.to raise_error(Codebreaker::Errors::HintError)
+    context 'when hints are absent' do
+      it 'raise HintError' do
+        game.instance_variable_set(:@hints, 0)
+        expect { game.hint }.to raise_error(Codebreaker::Errors::HintError)
+      end
     end
 
     it 'reduces hint counter by 1' do

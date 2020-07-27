@@ -2,12 +2,22 @@ RSpec.describe Codebreaker::Guess do
   let(:guess_object) { described_class.new(1234, [1, 1, 1, 1]) }
 
   describe '.validate' do
-    it 'raise WrongArgumentError if guess is not integer' do
-      expect { described_class.validate('guess') }.to raise_error(Codebreaker::Errors::WrongArgumentError)
+    context 'when guess is not integer' do
+      it 'raise WrongArgumentError' do
+        expect { described_class.validate('guess') }.to raise_error(Codebreaker::Errors::WrongArgumentError)
+      end
     end
 
-    it 'raise LengthError if guess is not equal to SECRET_CODE_SIZE' do
-      expect { described_class.validate(1_234_567_890) }.to raise_error(Codebreaker::Errors::LengthError)
+    context 'when guess is not equal to SECRET_CODE_SIZE' do
+      it 'raise LengthError' do
+        expect { described_class.validate(1_234_567_890) }.to raise_error(Codebreaker::Errors::LengthError)
+      end
+    end
+
+    context 'when guess is not in SECRET_CODE_RANGE' do
+      it 'raise RangeError' do
+        expect { described_class.validate(9999) }.to raise_error(Codebreaker::Errors::RangeError)
+      end
     end
   end
 end

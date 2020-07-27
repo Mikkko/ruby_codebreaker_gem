@@ -5,7 +5,7 @@ RSpec.describe Codebreaker::Statistic do
     let(:player) { Codebreaker::Player.new('Mikkko') }
     let(:game) { Codebreaker::Game.new(player, 'easy') }
 
-    it 'creates file if it does not exist' do
+    it 'creates file if not exist' do
       statistic.store_statistic(player, difficulty, 2, 2)
       expect(File.file?('results.yml')).to be(true)
     end
@@ -21,7 +21,7 @@ RSpec.describe Codebreaker::Statistic do
     end
   end
 
-  describe '.load_statistic' do
+  describe '#load_statistic' do
     let(:fake_statistic) { described_class.new('fake.txt') }
 
     it 'raises StatisticFileError if file is not exist ' do

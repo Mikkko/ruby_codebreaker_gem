@@ -15,7 +15,7 @@ module Codebreaker
     end
 
     def validate_range(number, range)
-      raise RangeError until number.digits.each { |digit| range.include?(digit) }
+      raise RangeError until number.digits.any? { |element| range.cover?(element) }
     end
 
     def validate_string_length(string, range)

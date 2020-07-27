@@ -13,11 +13,11 @@ RSpec.describe Codebreaker::Player do
 
   describe '.validate' do
     it 'raises WrongArgumentError' do
-      expect { described_class.new(123) }.to raise_error(Codebreaker::Errors::WrongArgumentError)
+      expect { described_class.validate(123) }.to raise_error(Codebreaker::Errors::WrongArgumentError)
     end
 
     it 'raises ClassError' do
-      expect { described_class.new('ar') }.to raise_error(Codebreaker::Errors::LengthError)
+      expect { described_class.validate('ar') }.to raise_error(Codebreaker::Errors::LengthError)
     end
   end
 end

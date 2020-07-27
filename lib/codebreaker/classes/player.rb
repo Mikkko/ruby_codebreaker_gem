@@ -6,13 +6,10 @@ module Codebreaker
     NAME_LENGTH = (3..20).freeze
 
     def initialize(name)
-      validate(name)
       @name = name
     end
 
-    private
-
-    def validate(name)
+    def self.validate(name)
       validate_argument_type(name, String)
       validate_string_length(name, NAME_LENGTH)
     end

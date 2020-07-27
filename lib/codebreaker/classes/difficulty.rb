@@ -7,7 +7,6 @@ module Codebreaker
     attr_reader :difficulty
 
     def initialize(difficulty)
-      validate(difficulty)
       @difficulty = difficulty.to_sym
     end
 
@@ -19,9 +18,7 @@ module Codebreaker
       DIFFICULTIES[@difficulty][:hints]
     end
 
-    private
-
-    def validate(difficulty)
+    def self.validate(difficulty)
       validate_argument_type(difficulty, String)
       validate_difficulty_name(difficulty, DIFFICULTIES)
     end

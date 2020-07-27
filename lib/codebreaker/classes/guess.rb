@@ -3,12 +3,11 @@ module Codebreaker
     include Validator
     RIGHT_ANSWER_SYMBOL = '+'.freeze
     WRONG_ANSWER_SYMBOL = '-'.freeze
-    SECRET_SIZE = 4
-    SECRET_RANGE = (1..6).freeze
+    SECRET_CODE_SIZE = 4
+    SECRET_CODE_RANGE = (1..6).freeze
     attr_reader :guess, :secret_code, :result
 
     def initialize(guess, secret_code)
-      validate_guess(guess)
       @secret_code = secret_code
       @guess = break_number(guess)
     end
@@ -21,16 +20,16 @@ module Codebreaker
       @result
     end
 
+    def self.validate(guess)
+      validate_argument_type(guess, Integer)
+      validate_length(guess, SECRET_CODE_SIZE)
+      validate_range(guess, SECRET_CODE_RANGE)
+    end
+
     private
 
     def count_matched_numbers
       (@secret_code & @guess).map { |element| [@secret_code.count(element), @guess.count(element)].min }.sum
-    end
-
-    def validate_guess(guess)
-      validate_argument_type(guess, Integer)
-      validate_length(guess, SECRET_SIZE)
-      validate_range(guess, SECRET_RANGE)
     end
 
     def break_number(number)

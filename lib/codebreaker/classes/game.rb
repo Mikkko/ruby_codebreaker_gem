@@ -37,14 +37,6 @@ module Codebreaker
       number
     end
 
-    def self.show_statistic(file)
-      Statistic.new(file).sort_stats
-    end
-
-    def save_result(file)
-      Statistic.new(file).store_statistic(@player, @difficulty, @attempts, @hints)
-    end
-
     private
 
     def generate_secret_code

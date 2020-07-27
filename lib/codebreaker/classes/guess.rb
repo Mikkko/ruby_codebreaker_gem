@@ -1,6 +1,6 @@
 module Codebreaker
   class Guess
-    include Validator
+    extend Validator
     RIGHT_ANSWER_SYMBOL = '+'.freeze
     WRONG_ANSWER_SYMBOL = '-'.freeze
     SECRET_CODE_SIZE = 4

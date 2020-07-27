@@ -1,6 +1,6 @@
 module Codebreaker
   class Player
-    include Validator
+    extend Validator
     attr_accessor :name
 
     NAME_LENGTH = (3..20).freeze

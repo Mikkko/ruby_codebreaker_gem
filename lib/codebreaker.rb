@@ -7,6 +7,7 @@ require_relative 'codebreaker/errors/wrong_argument_error'
 require_relative 'codebreaker/errors/length_error'
 require_relative 'codebreaker/errors/range_error'
 require_relative 'codebreaker/errors/hint_error'
+require_relative 'codebreaker/errors/wrong_command_error'
 
 require_relative 'codebreaker/modules/validator'
 

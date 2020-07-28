@@ -32,9 +32,10 @@ commands:
           key: *bundle_cache
       - run:
           name: Bundler install
-          command:
-            sudo gem install bundler
-            bundle install --path vendor/bundle
+          command: sudo gem install bundler
+      - run:
+          name: Bundle install
+          command: bundle install --path vendor/bundle
       - save_cache:
           key: *bundle_cache
           paths:

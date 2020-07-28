@@ -23,5 +23,16 @@ Gem::Specification.new do |spec|
   spec.bindir        = 'exe'
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ['lib']
+
+  spec.add_development_dependency 'fasterer', '~>0.8'
+  spec.add_development_dependency 'i18n', '~>1.8'
+  spec.add_development_dependency 'rake', '~> 12.0'
   spec.add_development_dependency 'rspec', '~> 3.9'
+  spec.add_development_dependency 'rubocop', '~>0.87'
+  spec.add_development_dependency 'rubocop-faker'
+  spec.add_development_dependency 'rubocop-graphql'
+  spec.add_development_dependency 'rubocop-performance'
+  spec.add_development_dependency 'rubocop-rails'
+  spec.add_development_dependency 'rubocop-rspec'
+  spec.add_development_dependency 'simplecov', '~>0.18'
 end

@@ -5,17 +5,23 @@ module Codebreaker
     WRONG_ANSWER_SYMBOL = '-'.freeze
     SECRET_CODE_SIZE = 4
     SECRET_CODE_RANGE = (1..6).freeze
-    attr_reader :guess, :secret_code, :result
+    attr_reader :guess, :secret_code, :result, :wrong_answer, :right_answer
 
     def initialize(guess, secret_code)
       @secret_code = secret_code
       @guess = break_number(guess)
     end
 
+    def symbols(right_answer = RIGHT_ANSWER_SYMBOL, wrong_answer = WRONG_ANSWER_SYMBOL)
+      @right_answer = right_answer
+      @wrong_answer = wrong_answer
+    end
+
     def check_guess
-      @result = WRONG_ANSWER_SYMBOL * count_matched_numbers
+      symbols
+      @result = @wrong_answer * count_matched_numbers
       @guess.each_with_index do |element, index|
-        @result.sub!(WRONG_ANSWER_SYMBOL, RIGHT_ANSWER_SYMBOL) if element == @secret_code[index]
+        @result.sub!(@wrong_answer, @right_answer) if element == @secret_code[index]
       end
       @result
     end

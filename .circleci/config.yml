@@ -30,7 +30,11 @@ commands:
       - checkout
       - restore_cache:
           key: *bundle_cache
-      - run: bundle install --path vendor/bundle
+      - run:
+          name: Bundler install
+          command:
+            sudo gem install bundler
+            bundle install --path vendor/bundle
       - save_cache:
           key: *bundle_cache
           paths:
@@ -55,8 +59,3 @@ workflows:
       - run_specs:
           requires:
             - lintering
-
-dependencies:
-  pre:
-    - echo "export rvm_ignore_gemsets_flag=1" >> ~/.rvmrc
-    - gem install bundler

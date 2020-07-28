@@ -1,6 +1,4 @@
 RSpec.describe Codebreaker::Guess do
-  let(:guess_object) { described_class.new(1234, [1, 1, 1, 1]) }
-
   describe '.validate' do
     context 'when guess is not integer' do
       it 'raise WrongArgumentError' do

@@ -28,6 +28,7 @@ module Codebreaker
 
     def self.validate(guess)
       validate_argument_type(guess, Integer)
+      validate_is_positive(guess)
       validate_length(guess, SECRET_CODE_SIZE)
       validate_range(guess, SECRET_CODE_RANGE)
     end

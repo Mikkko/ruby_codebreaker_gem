@@ -17,5 +17,11 @@ RSpec.describe Codebreaker::Guess do
         expect { described_class.validate(9999) }.to raise_error(Codebreaker::Errors::RangeError)
       end
     end
+
+    context 'when guess is negative' do
+      it 'raise NegativeNumberError' do
+        expect { described_class.validate(-1_111_111) }.to raise_error(Codebreaker::Errors::NegativeNumberError)
+      end
+    end
   end
 end

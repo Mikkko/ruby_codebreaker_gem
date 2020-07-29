@@ -21,5 +21,9 @@ module Codebreaker
     def validate_string_length(string, range)
       raise LengthError until range.include?(string.length)
     end
+
+    def validate_is_positive(number)
+      raise NegativeNumberError until number.positive?
+    end
   end
 end

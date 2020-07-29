@@ -31,7 +31,7 @@ module Codebreaker
       hints_used = @game.difficulty.hints - @game.hints
       {
         player: @game.player,
-        difficulty: @game.difficulty.difficulty,
+        difficulty: @game.difficulty,
         attempts: @game.difficulty.attempts,
         attempts_used: attempts_used,
         hints: @game.difficulty.hints,

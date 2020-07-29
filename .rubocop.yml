@@ -1,0 +1,24 @@
+require:
+  - rubocop-rails
+  - rubocop-rspec
+  - rubocop-performance
+  - rubocop-faker
+  - rubocop-graphql
+
+AllCops:
+  NewCops: enable
+  Exclude:
+    - 'bin/*'
+    - 'fixtures/**/*'
+    - 'db/migrate/*'
+    - 'vendor/**/*'
+    - 'spec/concepts/api/v1/product/contract/create_spec.rb'
+
+Metrics/LineLength:
+  Max: 120
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Style/Documentation:
+  Enabled: false

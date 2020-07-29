@@ -2,7 +2,8 @@ RSpec.describe Codebreaker::Statistic do
   describe '#store_statistic' do
     let(:statistic) { described_class.new('results.yml') }
     let(:player) { Codebreaker::Player.new('Mikkko') }
-    let(:game) { Codebreaker::Game.new(player, 'easy') }
+    let(:difficulty) { Codebreaker::Difficulty.new('easy') }
+    let(:game) { Codebreaker::Game.new(player, difficulty) }
 
     it 'creates file if not exist' do
       statistic.store_statistic(game)

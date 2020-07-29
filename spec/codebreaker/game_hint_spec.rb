@@ -1,5 +1,6 @@
 RSpec.describe Codebreaker::Game do
-  let(:game) { described_class.new(Codebreaker::Player.new('Mikkko'), 'easy') }
+  let(:difficulty) { Codebreaker::Difficulty.new('easy') }
+  let(:game) { described_class.new(Codebreaker::Player.new('Mikkko'), difficulty) }
 
   describe '#hint' do
     context 'when hints are absent' do

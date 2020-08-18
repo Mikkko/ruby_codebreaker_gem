@@ -10,6 +10,7 @@ module Codebreaker
     def store_statistic(game)
       @game = game
       stats = File.file?(@file_path) && !File.zero?(@file_path) ? load_statistic : []
+      @time = Time.now.getlocal
       stats << create_statistic
       file = File.open(@file_path, 'w')
       file.write(stats.to_yaml)
@@ -27,15 +28,14 @@ module Codebreaker
     end
 
     def create_statistic
-      attempts_used = @game.difficulty.attempts - @game.attempts
-      hints_used = @game.difficulty.hints - @game.hints
       {
         player: @game.player,
         difficulty: @game.difficulty,
         attempts: @game.difficulty.attempts,
-        attempts_used: attempts_used,
+        attempts_used: @game.difficulty.attempts - @game.attempts,
         hints: @game.difficulty.hints,
-        hints_used: hints_used
+        hints_used: @game.difficulty.hints - @game.hints,
+        date: @time
       }
     end
   end
